@@ -9,13 +9,13 @@ export function LandingPage() {
       sx={{ pt: 8, pb: 6 }}
     >
       <Typography
-        component="h1"
-        variant="h2"
+        component="h3"
+        variant="h3"
         align="center"
         color="text.primary"
         gutterBottom
       >
-        AplifyNotes
+        AmplifyNotes
       </Typography>
       <Typography
         variant="h5"
@@ -24,6 +24,14 @@ export function LandingPage() {
         component="p"
       >
         Pancake Technical Exercise.
+      </Typography>
+      <Typography
+        variant="h6"
+        align="center"
+        color="text.secondary"
+        component="p"
+      >
+        by: Ignacio Romanow
       </Typography>
     </Container>
   );

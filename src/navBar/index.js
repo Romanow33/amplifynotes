@@ -9,8 +9,9 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import MenuItem from "@mui/material/MenuItem";
 import { useNavigate } from "react-router-dom";
-
-export default function NavBar() {
+import { Authenticator } from "@aws-amplify/ui-react";
+import "@aws-amplify/ui-react/styles.css";
+export default function NavBar(signOut) {
   let navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
 
@@ -34,80 +35,91 @@ export default function NavBar() {
     navigate("/create");
   };
 
-  return (
-    <AppBar position="static">
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
-          >
-            amplifYnotes
-          </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "block", md: "none" },
-              }}
-            >
-              <MenuItem onClick={goHome}>
-                <Typography textAlign="center">Home</Typography>
-              </MenuItem>
-              <MenuItem onClick={goNotes}>
-                <Typography textAlign="center">Notes</Typography>
-              </MenuItem>
-              <MenuItem onClick={goCreateNotes}>
-                <Typography textAlign="center">Create note</Typography>
-              </MenuItem>
-            </Menu>
-          </Box>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
-          >
-            LOGO
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            <MenuItem onClick={goHome}>
-              <Typography textAlign="center">Home</Typography>
-            </MenuItem>
-            <MenuItem onClick={goNotes}>
-              <Typography textAlign="center">Notes</Typography>
-            </MenuItem>
-            <MenuItem onClick={goCreateNotes}>
-              <Typography textAlign="center">Create note</Typography>
-            </MenuItem>
-          </Box>
-        </Toolbar>
-      </Container>
-    </AppBar>
+  return (
+    <Authenticator>
+      {({ signOut, user }) => (
+        <AppBar position="static">
+          <Container maxWidth="xl">
+            <Toolbar disableGutters>
+              <Typography
+                variant="h6"
+                noWrap
+                component="div"
+                sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
+              >
+                amplifYnotes
+              </Typography>
+
+              <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+                <IconButton
+                  size="large"
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={handleOpenNavMenu}
+                  color="inherit"
+                >
+                  <MenuIcon />
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorElNav}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "left",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "left",
+                  }}
+                  open={Boolean(anchorElNav)}
+                  onClose={handleCloseNavMenu}
+                  sx={{
+                    display: { xs: "block", md: "none" },
+                  }}
+                >
+                  <MenuItem onClick={goHome}>
+                    <Typography textAlign="center">Home</Typography>
+                  </MenuItem>
+                  <MenuItem onClick={goNotes}>
+                    <Typography textAlign="center">Notes</Typography>
+                  </MenuItem>
+                  <MenuItem onClick={goCreateNotes}>
+                    <Typography textAlign="center">Create note</Typography>
+                  </MenuItem>
+                  <MenuItem onClick={signOut}>
+                    <Typography textAlign="center">Sing Out</Typography>
+                  </MenuItem>
+                </Menu>
+              </Box>
+              <Typography
+                variant="h6"
+                noWrap
+                component="div"
+                sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
+              >
+                amplifYnotes
+              </Typography>
+              <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+                <MenuItem onClick={goHome}>
+                  <Typography textAlign="center">Home</Typography>
+                </MenuItem>
+                <MenuItem onClick={goNotes}>
+                  <Typography textAlign="center">Notes</Typography>
+                </MenuItem>
+                <MenuItem onClick={goCreateNotes}>
+                  <Typography textAlign="center">Create note</Typography>
+                </MenuItem>
+                <MenuItem onClick={signOut}>
+                  <Typography textAlign="center">Sing Out</Typography>
+                </MenuItem>
+              </Box>
+            </Toolbar>
+          </Container>
+        </AppBar>
+      )}
+    </Authenticator>
   );
 }

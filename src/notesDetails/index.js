@@ -7,7 +7,33 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useNavigate, useParams } from "react-router-dom";
+import { makeStyles } from "@mui/styles";
+
+const useStyles = makeStyles({
+  headTitle: {
+    textDecoration: "underline red",
+  },
+  title: {
+    padding: "0px",
+    color: "#1976d2",
+  },
+  labels: {
+    margin: "20px",
+    color: "#1976d2",
+    textAlign: "center",
+    fontSize: "20px",
+  },
+  inputNote: {
+    height: "100px",
+  },
+
+  userId: {
+    padding: "10px",
+    color: "gray",
+  },
+});
 export function NotesDetails({ notes }) {
+  const classes = useStyles();
   const { noteId } = useParams();
   const note = notes.find((note) => note.id === noteId);
   let navigate = useNavigate();
@@ -47,14 +73,17 @@ export function NotesDetails({ notes }) {
                 variant="h5"
                 align="center"
                 component="h2"
+                className={classes.title}
               >
                 {note.name}
               </Typography>
               <Typography>{note.description}</Typography>
             </CardContent>
-            <Typography>{note.userId}</Typography>
+            <Typography className={classes.userId}>{note.userId}</Typography>
             <CardActions>
-              <Button size="small" onClick={goEditNote}>Edit</Button>
+              <Button size="small" onClick={goEditNote}>
+                Edit
+              </Button>
             </CardActions>
           </Card>
         </Grid>

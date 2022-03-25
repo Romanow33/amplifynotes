@@ -12,13 +12,51 @@ import { useEffect, useState } from "react";
 import { API, Storage } from "aws-amplify";
 import { listNotes } from "../graphql/queries";
 import { updateNote as updateNoteMutation } from "../graphql/mutations";
+import { makeStyles } from "@mui/styles";
+const useStyles = makeStyles({
+  title: {
+    textAlign: "center",
+    padding: "20px",
+  },
+  labels: {
+    margin: "20px",
+    color: "#1976d2",
+    textAlign: "center",
+    fontSize: "20px",
+  },
+  inputNote: {
+    height: "100px",
+  },
 
+  buton: {
+    fontSize: "15px",
+    fontFamily: "Arial",
+    height: "50px",
+    borderWidth: "1px",
+    color: "#666666",
+    borderColor: "#dcdcdc",
+    fontWeight: "bold",
+  },
+  errorMsg: {
+    color: "red",
+    fontWeight: "bold",
+    fontSize: "10px",
+  },
+  goodmsg: {
+    color: "green",
+  },
+
+  userId: {
+    padding: "10px",
+    color: "gray",
+  },
+});
 export function EditForm({ notes }) {
   const [isSend, setIsSend] = useState(false);
   const [allnotes, setAllNotes] = useState([]);
   const { noteId } = useParams();
   const note = notes.find((note) => note.id === noteId);
-
+  const classes = useStyles();
   useEffect(() => {
     fetchNotes();
   }, []);
@@ -100,7 +138,7 @@ export function EditForm({ notes }) {
         {({ errors, setFieldValue }) => (
           <Form>
             <Container sx={{ py: 2 }} maxWidth="xs">
-              <Grid item xs={12} sm={6} md={4}>
+              <Grid item xs={12} sm={6} md={4} alingItems="center">
                 <Card
                   sx={{
                     height: "10%",
@@ -117,8 +155,11 @@ export function EditForm({ notes }) {
                     image={note.image}
                     alt="random"
                   />
-                  <label htmlFor="image">Change image</label>
+                  <Typography className={classes.labels} htmlFor="image">
+                    Change image
+                  </Typography>
                   <input
+                    className={classes.buton}
                     type="file"
                     id="image"
                     name="image"
@@ -127,48 +168,73 @@ export function EditForm({ notes }) {
                     }
                   />
                   <CardContent sx={{ flexGrow: 1 }}>
+                    <Typography className={classes.labels} htmlFor="name">
+                      Change title
+                    </Typography>
                     <Typography
                       gutterBottom
                       variant="h5"
                       align="center"
                       component="h2"
                     >
-                      {note.name}
+                      "{note.name}"
                     </Typography>
-                    <div>
-                      <label htmlFor="name">Change title</label>
-                      <Field
-                        type="text"
-                        id="name"
-                        name="name"
-                        placeholder="Take a shower"
-                      />
-                      <ErrorMessage
-                        name="name"
-                        component={() => <div>{errors.name}</div>}
-                      />
-                    </div>
-                    <Typography>{note.description}</Typography>
-                    <div>
-                      <label htmlFor="description">Change text</label>
-                      <Field
-                        type="text"
-                        id="description"
-                        name="description"
-                        placeholder="deberia bañarme a las 16"
-                      />
-                      <ErrorMessage
-                        name="description"
-                        component={() => <div>{errors.description}</div>}
-                      />
-                    </div>
+
+                    <Field
+                      type="text"
+                      id="name"
+                      name="name"
+                      placeholder="Don't forget! "
+                    />
+                    <ErrorMessage
+                      name="name"
+                      component={() => (
+                        <div className={classes.errorMsg}>{errors.name}</div>
+                      )}
+                    />
+
+                    <Typography
+                      className={classes.labels}
+                      htmlFor="description"
+                    >
+                      Change text
+                    </Typography>
+                    <Typography>"{note.description}"</Typography>
+                    <Field
+                      type="text"
+                      id="description"
+                      name="description"
+                      placeholder="Rmemeber, don't forget"
+                      as="textarea"
+                      className={classes.inputNote}
+                    />
+                    <ErrorMessage
+                      name="description"
+                      component={() => (
+                        <div className={classes.errorMsg}>
+                          {errors.description}
+                        </div>
+                      )}
+                    />
                   </CardContent>
-                  <Typography>{note.userId}</Typography>
+                  <Typography className={classes.userId}>
+                    {note.userId}
+                  </Typography>
                   <CardActions>
-                    <Button size="small" type="submit">
+                    <Button
+                      variant="contained"
+                      sx={{ mt: 3, mb: 2 }}
+                      type="submit"
+                    >
                       Submit
                     </Button>
-                    {isSend && <p>Note create!</p>}
+                    <ErrorMessage
+                      name="image"
+                      component={() => (
+                        <div className={classes.errorMsg}> {errors.image}</div>
+                      )}
+                    />
+                    {isSend && <p className={classes.goodmsg}>Updated note!</p>}
                   </CardActions>
                 </Card>
               </Grid>

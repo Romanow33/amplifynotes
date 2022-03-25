@@ -41,25 +41,20 @@ export default function App() {
       {({ signOut, user }) => (
         <Router>
           <header>
-            <NavBar />
+            <NavBar signOut={signOut} />
           </header>
           <main>
             <Routes>
-              <Route
-                path="/"
-                element={<LandingPage signOut={signOut} user={user} />}
-              />
-              <Route
-                path="/notes"
-                element={<NotesGird signOut={signOut} user={user} />}
-              />
+              <Route path="/" element={<LandingPage user={user} />} />
+              <Route path="/notes" element={<NotesGird user={user} />} />
               <Route exact path="/create" element={<NotesForm user={user} />} />
               <Route
                 path="/notes/:noteId"
                 element={<NotesDetails notes={notes} />}
               />
               <Route
-                exact path="/notes/:noteId/edit"
+                exact
+                path="/notes/:noteId/edit"
                 element={<EditForm notes={notes} />}
               />
             </Routes>

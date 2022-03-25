@@ -13,8 +13,32 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { useNavigate } from "react-router-dom";
+import { makeStyles } from "@mui/styles";
+const useStyles = makeStyles({
+  headTitle: {
+    textDecoration: "underline red",
+  },
+  title: {
+    padding: "0px",
+    color: "#1976d2",
+  },
+  labels: {
+    margin: "20px",
+    color: "#1976d2",
+    textAlign: "center",
+    fontSize: "20px",
+  },
+  inputNote: {
+    height: "100px",
+  },
 
+  userId: {
+    padding: "10px",
+    color: "gray",
+  },
+});
 export function NotesGird({ signOut, user }) {
+  const classes = useStyles();
   let navigate = useNavigate();
   const [notes, setNotes] = useState([]);
   const theme = createTheme();
@@ -55,16 +79,18 @@ export function NotesGird({ signOut, user }) {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Typography
-        component="h3"
-        variant="h3"
-        align="center"
-        color="text.primary"
-        gutterBottom
-      >
-        Notes of {user.username}
-      </Typography>
+
       <Container sx={{ py: 8 }} maxWidth="md">
+        <Typography
+          component="h4"
+          variant="h4"
+          align="left"
+          color="gray"
+          gutterBottom
+          clasName={classes.headTitle}
+        >
+          Notes of {user.username}:
+        </Typography>
         <Grid container spacing={4}>
           {notes.map((note) => (
             <Grid item key={note.id || note.name} xs={12} sm={6} md={4}>
@@ -79,23 +105,25 @@ export function NotesGird({ signOut, user }) {
                   component="img"
                   sx={{
                     pt: "0%",
-                    height: "35%",
+                    height: "30%",
                   }}
                   image={note.image}
                   alt="random"
                 />
                 <CardContent sx={{ flexGrow: 1 }}>
                   <Typography
+                    className={classes.title}
                     gutterBottom
                     variant="h5"
                     align="center"
-                    component="h2"
                   >
                     {note.name}
                   </Typography>
                   <Typography>{note.description}</Typography>
                 </CardContent>
-                <Typography>{note.userId}</Typography>
+                <Typography className={classes.userId}>
+                  {note.userId}
+                </Typography>
                 <CardActions>
                   <Button size="small" onClick={() => goDetails(note.id)}>
                     View
