@@ -38,14 +38,14 @@ const useStyles = makeStyles({
     color: "gray",
   },
 });
-export function NotesGird({ signOut, user }) {
+export function NotesGird({ user }) {
   const classes = useStyles();
   let navigate = useNavigate();
   const [notes, setNotes] = useState([]);
   const theme = createTheme();
   useEffect(() => {
     fetchNotes();
-  }, []);
+  }, [setNotes]);
 
   async function fetchNotes() {
     const apiData = await API.graphql({ query: listNotes });

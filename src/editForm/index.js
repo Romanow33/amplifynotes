@@ -56,7 +56,7 @@ export function EditForm({ notes }) {
   const [isSend, setIsSend] = useState(false);
   const [allnotes, setAllNotes] = useState([]);
   const { noteId } = useParams();
-  const note = notes.find((note) => note.id === noteId);
+  const note = allnotes.find((note) => note.id === noteId);
   const classes = useStyles();
   useEffect(() => {
     fetchNotes();

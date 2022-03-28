@@ -1,4 +1,4 @@
-import { Amplify, API, Storage } from "aws-amplify";
+import { Amplify } from "aws-amplify";
 import { Authenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 import awsExports from "./aws-exports";
@@ -8,34 +8,12 @@ import { LandingPage } from "./landingPage";
 import NavBar from "./navBar";
 import { NotesForm } from "./notesForm";
 import { NotesDetails } from "./notesDetails";
-import { useEffect, useState } from "react";
-import { listNotes } from "./graphql/queries";
+
 import { EditForm } from "./editForm";
 
 Amplify.configure(awsExports);
 
 export default function App() {
-  const [notes, setNotes] = useState([]);
-
-  useEffect(() => {
-    fetchNotes();
-  }, [notes]);
-
-  async function fetchNotes() {
-    const apiData = await API.graphql({ query: listNotes });
-    const notesFromAPI = apiData.data.listNotes.items;
-    await Promise.all(
-      notesFromAPI.map(async (note) => {
-        if (note.image) {
-          const image = await Storage.get(note.image);
-          note.image = image;
-        }
-        return note;
-      })
-    );
-    setNotes(apiData.data.listNotes.items);
-  }
-
   return (
     <Authenticator>
       {({ signOut, user }) => (
@@ -48,15 +26,8 @@ export default function App() {
               <Route path="/" element={<LandingPage user={user} />} />
               <Route path="/notes" element={<NotesGird user={user} />} />
               <Route exact path="/create" element={<NotesForm user={user} />} />
-              <Route
-                path="/notes/:noteId"
-                element={<NotesDetails notes={notes} />}
-              />
-              <Route
-                exact
-                path="/notes/:noteId/edit"
-                element={<EditForm notes={notes} />}
-              />
+              <Route path="/notes/:noteId" element={<NotesDetails />} />
+              <Route exact path="/notes/:noteId/edit" element={<EditForm />} />
             </Routes>
           </main>
         </Router>

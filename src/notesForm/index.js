@@ -196,7 +196,7 @@ export function NotesForm(user) {
                     </Grid>
                     <Grid item md={12} xs={6}>
                       <Typography className={classes.labels} htmlFor="image">
-                        Selecciona una imagen:
+                        Select image:
                       </Typography>
 
                       <input
@@ -223,7 +223,7 @@ export function NotesForm(user) {
                       sx={{ mt: 3, mb: 2 }}
                       type="submit"
                     >
-                      Crear nota
+                      Create note
                     </Button>
                   </Grid>
                 </Paper>
