@@ -14,6 +14,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { useNavigate } from "react-router-dom";
 import { makeStyles } from "@mui/styles";
+import { CircularProgress } from "@mui/material";
 const useStyles = makeStyles({
   headTitle: {
     textDecoration: "underline red",
@@ -75,71 +76,86 @@ export function NotesGird({ signOut, user }) {
   const goEdit = (id) => {
     navigate("/notes/" + id + "/edit");
   };
-  console.log(notes);
-  return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
+  if (!notes) {
+    <>
+      <Grid
+        md={12}
+        xs={12}
+        container
+        alignItems="center"
+        justifyContent="flex-end"
+        direction="column"
+        sx={{ mt: "25%" }}
+      >
+        <CircularProgress />
+      </Grid>
+    </>;
+  } else {
+    return (
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
 
-      <Container sx={{ py: 8 }} maxWidth="md">
-        <Typography
-          component="h4"
-          variant="h4"
-          align="left"
-          color="gray"
-          gutterBottom
-          clasName={classes.headTitle}
-        >
-          Notes of {user.username}:
-        </Typography>
-        <Grid container spacing={4}>
-          {notes.map((note) => (
-            <Grid item key={note.id || note.name} xs={12} sm={6} md={4}>
-              <Card
-                sx={{
-                  height: "100%",
-                  display: "flex",
-                  flexDirection: "column",
-                }}
-              >
-                <CardMedia
-                  component="img"
+        <Container sx={{ py: 8 }} maxWidth="md">
+          <Typography
+            component="h4"
+            variant="h4"
+            align="left"
+            color="gray"
+            gutterBottom
+            clasName={classes.headTitle}
+          >
+            Notes of {user.username}:
+          </Typography>
+          <Grid container spacing={4}>
+            {notes.map((note) => (
+              <Grid item key={note.id || note.name} xs={12} sm={6} md={4}>
+                <Card
                   sx={{
-                    pt: "0%",
-                    height: "30%",
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
                   }}
-                  image={note.image}
-                  alt="random"
-                />
-                <CardContent sx={{ flexGrow: 1 }}>
-                  <Typography
-                    className={classes.title}
-                    gutterBottom
-                    variant="h5"
-                    align="center"
-                  >
-                    {note.name}
+                >
+                  <CardMedia
+                    component="img"
+                    sx={{
+                      pt: "0%",
+                      height: "30%",
+                    }}
+                    image={note.image}
+                    alt="random"
+                  />
+                  <CardContent sx={{ flexGrow: 1 }}>
+                    <Typography
+                      className={classes.title}
+                      gutterBottom
+                      variant="h5"
+                      align="center"
+                    >
+                      {note.name}
+                    </Typography>
+                    <Typography>{note.description}</Typography>
+                  </CardContent>
+                  <Typography className={classes.userId}>
+                    {note.userId}
                   </Typography>
-                  <Typography>{note.description}</Typography>
-                </CardContent>
-                <Typography className={classes.userId}>
-                  {note.userId}
-                </Typography>
-                <CardActions>
-                  <Button size="small" onClick={() => goDetails(note.id)}>
-                    View
-                  </Button>
-                  <Button size="small" onClick={() => goEdit(note.id)}>
-                    Edit
-                  </Button>
-                  <Button size="small" onClick={() => deleteNote(note)}>
-                    delete
-                  </Button>
-                </CardActions>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      </Container>
-    </ThemeProvider>
-  );
+                  <CardActions>
+                    <Button size="small" onClick={() => goDetails(note.id)}>
+                      View
+                    </Button>
+                    <Button size="small" onClick={() => goEdit(note.id)}>
+                      Edit
+                    </Button>
+                    <Button size="small" onClick={() => deleteNote(note)}>
+                      delete
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      </ThemeProvider>
+    );
+  }
 }

@@ -13,6 +13,7 @@ import { API, Storage } from "aws-amplify";
 import { listNotes } from "../graphql/queries";
 import { updateNote as updateNoteMutation } from "../graphql/mutations";
 import { makeStyles } from "@mui/styles";
+import { CircularProgress } from "@mui/material";
 const useStyles = makeStyles({
   title: {
     textAlign: "center",
@@ -96,11 +97,20 @@ export function EditForm({ notes }) {
     );
     setAllNotes(apiData.data.listNotes.items);
   }
-  if (!note) return null;
-  if (!notes) {
+  if (!note) {
     return (
       <>
-        <h1>cargando </h1>
+        <Grid
+          md={12}
+          xs={12}
+          container
+          alignItems="center"
+          justifyContent="flex-end"
+          direction="column"
+          sx={{ mt: "25%" }}
+        >
+          <CircularProgress />
+        </Grid>
       </>
     );
   } else {

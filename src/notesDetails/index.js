@@ -8,6 +8,8 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useNavigate, useParams } from "react-router-dom";
 import { makeStyles } from "@mui/styles";
+import { CircularProgress } from "@mui/material";
+
 
 const useStyles = makeStyles({
   headTitle: {
@@ -35,16 +37,27 @@ const useStyles = makeStyles({
 export function NotesDetails({ notes }) {
   const classes = useStyles();
   const { noteId } = useParams();
-  const note = notes.find((note) => note.id === noteId);
   let navigate = useNavigate();
-  if (!note) return null;
   const goEditNote = () => {
     navigate("/notes/" + note.id + "/edit");
   };
-  if (!notes) {
+
+  const note = notes.find((note) => note.id === noteId);
+
+  if (!note) {
     return (
       <>
-        <h1>cargando </h1>
+        <Grid
+          md={12}
+          xs={12}
+          container
+          alignItems="center"
+          justifyContent="flex-end"
+          direction="column"
+          sx={{ mt: "25%" }}
+        >
+          <CircularProgress />
+        </Grid>
       </>
     );
   } else {
